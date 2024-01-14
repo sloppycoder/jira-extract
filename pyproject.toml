@@ -17,6 +17,7 @@ sqlalchemy = {extras = ["mypy"], version = "^2.0.23"}
 sqlalchemy-utils = "^0.41.1"
 alembic = "^1.13.0"
 psycopg = {extras = ["binary", "pool"], version = "^3.1.14"}
+jira = "^3.6.0"
 
 
 [build-system]
@@ -60,6 +61,7 @@ source = ["."]
 omit = ["tests/*"]
 
 [tool.mypy]
+plugins = ["sqlalchemy.ext.mypy.plugin"]
 warn_return_any = false
 warn_unused_configs = true
 no_implicit_optional = true
@@ -73,5 +75,6 @@ mypy_path = "."
 [[tool.mypy.overrides]]
 module = [
     "dataclasses",
+    "sqlalchemy_utils",
 ]
 ignore_missing_imports = true

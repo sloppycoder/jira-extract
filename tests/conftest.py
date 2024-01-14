@@ -1,22 +1,19 @@
 import os
 import sys
 
-
 import pytest
 from alembic import command
 from alembic.config import Config
 from loguru import logger
 from sqlalchemy import create_engine
-from sqlalchemy.engine import make_url
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy_utils import create_database, database_exists, drop_database
-
 
 cwd = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.abspath(f"{cwd}/.."))
 
 
-from jira_extract.models import User  # noqa: E402
+# from jira_extract.models import JiraIssue  # noqa: E402
 
 
 @pytest.fixture(scope="session")
@@ -25,7 +22,6 @@ def sql_engine(tmp_path_factory):
     if test_db_url is None:
         test_db_url = f"sqlite:///{tmp_path_factory.getbasetemp()}/test.db"
 
-    test_db_url = make_url(url_str)
     if test_db_url.drivername.startswith("postgres"):
         if not test_db_url.username:
             test_db_url = test_db_url.set(username=os.environ.get("TEST_PGUSER"))
@@ -46,8 +42,8 @@ def sql_engine(tmp_path_factory):
     sql_engine = create_engine(test_db_url)
 
     # seed test data
-    with sessionmaker(bind=sql_engine)() as session:
-        seed_data(session)
+    # with sessionmaker(bind=sql_engine)() as session:
+    #     seed_data(session)
 
     yield sql_engine
 
@@ -65,10 +61,3 @@ def session(sql_engine):
     yield session
 
     session.close()
-
-
-def seed_data(session):
-    root = User(login_name="root")
-    session.add(root)
-    session.commit()
-
