@@ -5,22 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "jira_extract",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal",
-            "justMyCode": false
-        },
-        {
-            "name": "pytest",
-            "type": "python",
-            "request": "launch",
-            "module": "pytest",
+            "module": "jira_extract",
             "justMyCode": false,
             "args": [
-                "-k",
-                "test_default_project",
+                "--project=BBX"
             ]
         }
     ]
